@@ -26,6 +26,31 @@ resource "aws_iam_role" "dq_aws_config_role" {
 POLICY
 }
 
+resource "aws_iam_role_policy" "dq_aws_config_policy" {
+  provider = aws.ENV_ACCT
+  name     = "${var.config_name}-${var.namespace}-policy"
+  role     = aws_iam_role.dq_aws_config_role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Effect": "Allow",
+      "Resource": "${var.kms_key_s3[var.namespace]}"
+    }
+  ]
+}
+EOF
+
+}
+
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
   role       = "${aws_iam_role.dq_aws_config_role.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
