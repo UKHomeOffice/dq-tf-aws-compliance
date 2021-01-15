@@ -86,6 +86,17 @@ resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status
 
   depends_on = ["aws_config_delivery_channel.dq_aws_config_delivery_channel"]
 }
+
+resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
+  name = var.config_rule["bucket_versioning_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = "S3_BUCKET_VERSIONING_ENABLED"
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
 #
 # resource "aws_config_config_rule" "instances_in_vpc" {
 #   name = "instances_in_vpc"

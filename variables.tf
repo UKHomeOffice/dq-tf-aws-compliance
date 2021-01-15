@@ -25,3 +25,17 @@ variable "kms_key_s3" {
 variable "config_bucket" {
   default = "s3-dq-aws-config"
 }
+
+variable "config_rule" {
+  type = map(string)
+  default = {
+    bucket_versioning_enabled = "DQ_s3_bucket_versioning_enabled"
+  }
+}
+
+variable "source_identifier" {
+  type = map(string)
+  default = {
+    bucket_versioning_enabled_id = "S3_BUCKET_VERSIONING_ENABLED"
+  }
+}
