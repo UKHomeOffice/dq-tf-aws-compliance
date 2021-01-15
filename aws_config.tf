@@ -1,9 +1,13 @@
 provider "aws" {
-  region = "us-west-2"
+  alias      = "ENV_ACCT"
+  region     = "eu-west-2"
+  access_key = var.ENV_ACCT_ID
+  secret_key = var.ENV_ACCT_KEY
 }
 
 resource "aws_iam_role" "dq_aws_config" {
-  name = "config-example"
+  provider = aws.ENV_ACCT
+  name     = "config-example"
 
   assume_role_policy = <<POLICY
 {
