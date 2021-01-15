@@ -43,7 +43,7 @@ variable "config_rule" {
 variable "source_identifier" {
   type = map(string)
   default = {
-    bucket_versioning_enabled_id                = "S3_BUCKET_VERSIONING_ENABLED"
+    s3_bucket_versioning_enabled_id             = "S3_BUCKET_VERSIONING_ENABLED"
     s3_bucket_level_public_access_prohibited_id = "S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED"
     s3_account_level_public_access_blocks_id    = "S3_ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS"
     s3_bucket_logging_enabled_id                = "S3_BUCKET_LOGGING_ENABLED"
