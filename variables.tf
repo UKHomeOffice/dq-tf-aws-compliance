@@ -9,7 +9,7 @@ variable "namespace" {
 }
 
 variable "config_name" {
-  "dq-aws-config"
+  default = "dq-aws-config"
 }
 
 # variable "account_id" {
