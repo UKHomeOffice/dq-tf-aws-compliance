@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "dq_aws_config" {
-  bucket = var.s3_bucket_name["dq-aws-config"]
-  acl    = var.s3_bucket_acl["dq-aws-config"]
+  bucket = "s3-${var.config_name}-${var.namespace}"
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -20,12 +20,12 @@ resource "aws_s3_bucket" "dq_aws_config" {
   }
 
   tags = {
-    Name = "s3-dq-aws-config-${local.naming_suffix}"
+    Name = "s3-${var.config_name}-${local.naming_suffix}"
   }
 }
 
 resource "aws_s3_bucket_policy" "dq-aws-config_bucket_policy" {
-  bucket = var.s3_bucket_name["dq-aws-config"]
+  bucket = aws_s3_bucket.dq_aws_config.name
 
   policy = <<POLICY
 {
@@ -36,7 +36,7 @@ resource "aws_s3_bucket_policy" "dq-aws-config_bucket_policy" {
       "Effect": "Deny",
       "Principal": "*",
       "Action": "*",
-      "Resource": "arn:aws:s3:::${var.s3_bucket_name["dq-aws-config"]}/*",
+      "Resource": "arn:aws:s3:::s3-${var.config_name}-${var.namespace}/*",
       "Condition": {
         "Bool": {
           "aws:SecureTransport": "false"
@@ -50,6 +50,6 @@ POLICY
 }
 
 resource "aws_s3_bucket_metric" "dq-aws-config_bucket_logging" {
-  bucket = var.s3_bucket_name["dq-aws-config"]
+  bucket = aws_s3_bucket.dq_aws_config.name
   name   = "dq-aws-config_metric"
 }
