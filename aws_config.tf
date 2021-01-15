@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "dq_aws_config_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "s3:*"
+      "Action": "s3:*",
       "Effect": "Allow",
       "Resource": [
         "arn:aws:s3:::"${var.config_bucket}-${var.namespace}"",
