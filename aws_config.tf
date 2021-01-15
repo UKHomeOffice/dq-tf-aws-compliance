@@ -53,14 +53,14 @@ resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
     include_global_resource_types = true
   }
 }
-#
-# resource "aws_config_delivery_channel" "my-config" {
-#   name           = "config-example"
-#   s3_bucket_name = "${aws_s3_bucket.my-config.bucket}"
-#
-#   depends_on = ["aws_config_configuration_recorder.my-config"]
-# }
-#
+
+resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
+  name           = "${var.config_name}-${var.namespace}-delivery-channel"
+  s3_bucket_name = "s3-dq-aws-config-test"
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
 # resource "aws_config_configuration_recorder_status" "config" {
 #   name       = "${aws_config_configuration_recorder.my-config.name}"
 #   is_enabled = true
