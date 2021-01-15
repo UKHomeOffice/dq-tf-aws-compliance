@@ -23,5 +23,5 @@ variable "kms_key_s3" {
 }
 
 variable "config_bucket" {
-  default = "${var.config_name}-${var.namespace}"
+  default = "s3-dq-aws-config"
 }

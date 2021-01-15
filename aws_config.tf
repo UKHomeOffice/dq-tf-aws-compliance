@@ -39,8 +39,8 @@ resource "aws_iam_role_policy" "dq_aws_config_policy" {
       "Action": "s3:*"
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:s3:::${var.config_bucket}",
-        "arn:aws:s3:::${var.config_bucket}/*"]
+        "arn:aws:s3:::"${var.config_bucket}-${var.namespace}"",
+        "arn:aws:s3:::"${var.config_bucket}-${var.namespace}"/*"]
     },
     {
       "Action": [
@@ -88,7 +88,7 @@ resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
 
 resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   name           = "${var.config_name}-${var.namespace}-delivery-channel"
-  s3_bucket_name = var.config_bucket
+  s3_bucket_name = "${var.config_bucket}-${var.namespace}"
 
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
