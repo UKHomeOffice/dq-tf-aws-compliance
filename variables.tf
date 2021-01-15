@@ -12,11 +12,10 @@ variable "config_name" {
   default = "dq-aws-config"
 }
 
-# variable "account_id" {
-#   type = map(string)
-#   default = {
-#     "test" = "797728447925"
-#     # "notprod" = "483846886818"
-#     # "prod"    = "337779336338"
-#   }
-# }
+s3_bucket_name = {
+  dq_aws_config = "s3-dq-log-archive-bucket-${var.NAMESPACE}"
+}
+
+s3_bucket_acl = {
+  dq_aws_config = "private"
+}

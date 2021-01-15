@@ -26,10 +26,10 @@ resource "aws_iam_role" "dq_aws_config_role" {
 POLICY
 }
 
-# resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
-#   role       = "${aws_iam_role.dq_aws_config.name}"
-#   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
-# }
+resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
+  role       = "${aws_iam_role.dq_aws_config.name}"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+}
 
 # resource "aws_s3_bucket" "my-config" {
 #   bucket = "config-bucket-for-my-test-project"
