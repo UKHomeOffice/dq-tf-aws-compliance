@@ -88,15 +88,93 @@ resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status
 }
 
 resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
-  name = var.config_rule["bucket_versioning_enabled"]
+  name = var.config_rule["s3_bucket_versioning_enabled"]
 
   source {
     owner             = "AWS"
-    source_identifier = "S3_BUCKET_VERSIONING_ENABLED"
+    source_identifier = var.source_identifier["s3_bucket_versioning_enabled_id"]
   }
 
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
+
+resource "aws_config_config_rule" "s3_bucket_level_public_access_prohibited" {
+  name = var.config_rule["s3_bucket_level_public_access_prohibited"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_level_public_access_prohibited_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_account_level_public_access_blocks" {
+  name = var.config_rule["s3_account_level_public_access_blocks"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_account_level_public_access_blocks_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_bucket_logging_enabled" {
+  name = var.config_rule["s3_bucket_logging_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_logging_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_bucket_public_read_prohibited" {
+  name = var.config_rule["s3_bucket_public_read_prohibited"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_public_read_prohibited_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
+  name = var.config_rule["s3_bucket_public_write_prohibited"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_public_write_prohibited_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
+  name = var.config_rule["s3_bucket_server_side_encryption_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_server_side_encryption_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
+  name = var.config_rule["s3_bucket_ssl_requests_only"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["s3_bucket_ssl_requests_only_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
 #
 # resource "aws_config_config_rule" "instances_in_vpc" {
 #   name = "instances_in_vpc"

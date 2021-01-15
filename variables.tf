@@ -29,13 +29,27 @@ variable "config_bucket" {
 variable "config_rule" {
   type = map(string)
   default = {
-    bucket_versioning_enabled = "DQ_s3_bucket_versioning_enabled"
+    s3_bucket_versioning_enabled             = "DQ_s3_bucket_versioning_enabled"
+    s3_bucket_level_public_access_prohibited = "DQ_s3_bucket_level_public_access_prohibited"
+    s3_account_level_public_access_blocks    = "DQ_s3_account_level_public_access_blocks"
+    s3_bucket_logging_enabled                = "DQ_s3_bucket_logging_enabled"
+    s3_bucket_public_read_prohibited         = "DQ_s3_bucket_public_read_prohibited"
+    s3_bucket_public_write_prohibited        = "DQ_s3_bucket_public_write_prohibited"
+    s3_bucket_server_side_encryption_enabled = "DQ_s3_bucket_server_side_encryption_enabled"
+    s3_bucket_ssl_requests_only              = "DQ_s3_bucket_ssl_requests_only"
   }
 }
 
 variable "source_identifier" {
   type = map(string)
   default = {
-    bucket_versioning_enabled_id = "S3_BUCKET_VERSIONING_ENABLED"
+    bucket_versioning_enabled_id                = "S3_BUCKET_VERSIONING_ENABLED"
+    s3_bucket_level_public_access_prohibited_id = "S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED"
+    s3_account_level_public_access_blocks_id    = "S3_ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS"
+    s3_bucket_logging_enabled_id                = "S3_BUCKET_LOGGING_ENABLED"
+    s3_bucket_public_read_prohibited_id         = "S3_BUCKET_PUBLIC_READ_PROHIBITED"
+    s3_bucket_public_write_prohibited_id        = "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
+    s3_bucket_server_side_encryption_enabled_id = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
+    s3_bucket_ssl_requests_only_id              = "S3_BUCKET_SSL_REQUESTS_ONLY"
   }
 }
