@@ -62,19 +62,6 @@ resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
   role       = "${aws_iam_role.dq_aws_config_role.name}"
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
 }
-#
-# resource "aws_s3_bucket" "my-config" {
-#   bucket = "config-bucket-for-my-test-project"
-#   acl    = "private"
-#
-#   versioning {
-#     enabled = true
-#   }
-#
-#   lifecycle {
-#     prevent_destroy = true
-#   }
-# }
 
 resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
   name     = "${var.config_name}-${var.namespace}-configuration-recorder"
@@ -93,12 +80,12 @@ resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
 
-# resource "aws_config_configuration_recorder_status" "config" {
-#   name       = "${aws_config_configuration_recorder.my-config.name}"
-#   is_enabled = true
-#
-#   depends_on = ["aws_config_delivery_channel.my-config"]
-# }
+resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status" {
+  name       = aws_config_configuration_recorder.dq_aws_config_recorder.name
+  is_enabled = true
+
+  depends_on = ["aws_config_delivery_channel.dq_aws_config_delivery_channel"]
+}
 #
 # resource "aws_config_config_rule" "instances_in_vpc" {
 #   name = "instances_in_vpc"
