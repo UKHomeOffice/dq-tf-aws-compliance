@@ -1,14 +1,14 @@
 pipeline:
 
-  run-testrunner-tests:
-    image: quay.io/ukhomeofficedigital/tf-testrunner:32
-    commands:
-      - python -m unittest tests/e2e.py
-    secrets:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-    when:
-      event: push
+  # run-testrunner-tests:
+  #   image: quay.io/ukhomeofficedigital/tf-testrunner:32
+  #   commands:
+  #     - python -m unittest tests/e2e.py
+  #   secrets:
+  #     - AWS_ACCESS_KEY_ID
+  #     - AWS_SECRET_ACCESS_KEY
+  #   when:
+  #     event: push
 
   init-test:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
@@ -79,22 +79,22 @@ pipeline:
       - TF_VAR_MOCK_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-#
-#   apply-test:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     commands:
-#       - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
-#       - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
-#       - terragrunt apply -auto-approve -parallelism=50 plan
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master , plan/* ]
-#     secrets:
-#       - TF_VAR_MOCK_ID
-#       - TF_VAR_MOCK_KEY
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
+
+  apply-test:
+    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+    commands:
+      - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
+      - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
+      - terragrunt apply -auto-approve -parallelism=50 plan
+    when:
+      event: push
+      branch:
+        exclude: [ master , plan/* ]
+    secrets:
+      - TF_VAR_MOCK_ID
+      - TF_VAR_MOCK_KEY
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
 #
 # # Notprod deployment
 #   init-notprod:

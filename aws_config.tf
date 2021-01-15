@@ -5,9 +5,9 @@ provider "aws" {
   secret_key = var.ENV_ACCT_KEY
 }
 
-resource "aws_iam_role" "dq_aws_config" {
+resource "aws_iam_role" "dq_aws_config_role" {
   provider = aws.ENV_ACCT
-  name     = "config-example"
+  name     = "${var.config_name}-${var.namespace}-role"
 
   assume_role_policy = <<POLICY
 {
