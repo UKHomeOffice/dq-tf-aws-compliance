@@ -36,6 +36,13 @@ resource "aws_iam_role_policy" "dq_aws_config_policy" {
   "Version": "2012-10-17",
   "Statement": [
     {
+      "Action": "s3:*"
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::${var.config_bucket}",
+        "arn:aws:s3:::${var.config_bucket}/*"]
+    },
+    {
       "Action": [
         "kms:Encrypt",
         "kms:Decrypt",
@@ -81,7 +88,7 @@ resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
 
 resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   name           = "${var.config_name}-${var.namespace}-delivery-channel"
-  s3_bucket_name = "s3-dq-aws-config-test"
+  s3_bucket_name = var.config_bucket
 
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
