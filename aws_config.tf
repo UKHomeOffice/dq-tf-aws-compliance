@@ -44,6 +44,25 @@ resource "aws_iam_role_policy" "dq_aws_config_policy" {
     },
     {
       "Action": [
+        "config:PutConfigurationRecorder",
+        "config:DescribeConfigurationRecorders",
+        "config:DeleteConfigurationRecorder",
+        "config:PutDeliveryChannel",
+        "config:DescribeDeliveryChannels",
+        "config:DeleteDeliveryChannel",
+        "config:StartConfigurationRecorder",
+        "config:DescribeConfigurationRecorderStatus",
+        "config:StopConfigurationRecorder",
+        "config:PutConfigRule",
+        "config:DescribeConfigRules",
+        "config:DeleteConfigRule",
+        "config:ListTagsForResource"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Action": [
         "kms:Encrypt",
         "kms:Decrypt",
         "kms:GenerateDataKey*",
