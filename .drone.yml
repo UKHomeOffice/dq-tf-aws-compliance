@@ -65,8 +65,8 @@ pipeline:
   plan-test:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     commands:
-      - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
+      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
       - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
       - terragrunt plan -lock=false -out=plan
