@@ -360,7 +360,7 @@ resource "aws_config_config_rule" "iam_user_no_policies_check" {
 resource "aws_config_config_rule" "iam_user_unused_credentials_check" {
   name = var.config_rule["iam_user_unused_credentials_check"]
 
-  "source" {
+  source {
     owner             = "AWS"
     source_identifier = var.source_identifier["iam_user_unused_credentials_check_id"]
   }
