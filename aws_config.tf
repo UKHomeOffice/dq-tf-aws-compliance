@@ -81,7 +81,7 @@ resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
 }
 
 resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status" {
-  name       = ["aws_config_configuration_recorder.dq_aws_config_recorder"].name
+  name       = aws_config_configuration_recorder.dq_aws_config_recorder.name
   is_enabled = true
 
   depends_on = ["aws_config_delivery_channel.dq_aws_config_delivery_channel"]
@@ -427,6 +427,5 @@ EOF
 #   "alarmActionRequired" : "t2.micro"
 # }
 # EOF
-#
 #   depends_on = ["aws_config_configuration_recorder.my-config"]
 # }
