@@ -80,14 +80,14 @@ resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
 
-#S3 Configuration Rules--------------------------------------------------------
-
 resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status" {
   name       = aws_config_configuration_recorder.dq_aws_config_recorder.name
   is_enabled = true
 
   depends_on = ["aws_config_delivery_channel.dq_aws_config_delivery_channel"]
 }
+
+#S3 Configuration Rules--------------------------------------------------------
 
 resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
   name = var.config_rule["s3_bucket_versioning_enabled"]
@@ -295,6 +295,74 @@ resource "aws_config_config_rule" "rds_storage_encrypted" {
   source {
     owner             = "AWS"
     source_identifier = var.source_identifier["rds_storage_encrypted_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+#IAM Configuration Rules--------------------------------------------------------
+
+resource "aws_config_config_rule" "iam_no_inline_policy_check" {
+  name = var.config_rule["iam_no_inline_policy_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_no_inline_policy_check_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "iam_group_has_users_check" {
+  name = var.config_rule["iam_group_has_users_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_group_has_users_check_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "iam_policy_no_statements_with_admin_access" {
+  name = var.config_rule["iam_policy_no_statements_with_admin_access"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_policy_no_statements_with_admin_access_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "iiam_user_mfa_enabled" {
+  name = var.config_rule["iam_user_mfa_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_user_mfa_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "iam_user_no_policies_check" {
+  name = var.config_rule["iam_user_no_policies_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_user_no_policies_check_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "iam_user_unused_credentials_check" {
+  name = var.config_rule["iam_user_unused_credentials_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["iam_user_unused_credentials_check_id"]
   }
 
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
