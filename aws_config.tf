@@ -77,7 +77,7 @@ resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   name           = "${var.config_name}-${var.namespace}-delivery-channel"
   s3_bucket_name = "${var.config_bucket}-${var.namespace}"
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status" {
@@ -97,7 +97,7 @@ resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
     source_identifier = var.source_identifier["s3_bucket_versioning_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_level_public_access_prohibited" {
@@ -108,7 +108,7 @@ resource "aws_config_config_rule" "s3_bucket_level_public_access_prohibited" {
     source_identifier = var.source_identifier["s3_bucket_level_public_access_prohibited_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_account_level_public_access_blocks" {
@@ -119,7 +119,7 @@ resource "aws_config_config_rule" "s3_account_level_public_access_blocks" {
     source_identifier = var.source_identifier["s3_account_level_public_access_blocks_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_logging_enabled" {
@@ -130,7 +130,7 @@ resource "aws_config_config_rule" "s3_bucket_logging_enabled" {
     source_identifier = var.source_identifier["s3_bucket_logging_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_public_read_prohibited" {
@@ -141,7 +141,7 @@ resource "aws_config_config_rule" "s3_bucket_public_read_prohibited" {
     source_identifier = var.source_identifier["s3_bucket_public_read_prohibited_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
@@ -152,7 +152,7 @@ resource "aws_config_config_rule" "s3_bucket_public_write_prohibited" {
     source_identifier = var.source_identifier["s3_bucket_public_write_prohibited_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
@@ -163,7 +163,7 @@ resource "aws_config_config_rule" "s3_bucket_server_side_encryption_enabled" {
     source_identifier = var.source_identifier["s3_bucket_server_side_encryption_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
@@ -174,7 +174,7 @@ resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
     source_identifier = var.source_identifier["s3_bucket_ssl_requests_only_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 #RDS Configuration Rules--------------------------------------------------------
@@ -187,7 +187,7 @@ resource "aws_config_config_rule" "rds_cluster_deletion_protection_enabled" {
     source_identifier = var.source_identifier["rds_cluster_deletion_protection_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_cluster_iam_authentication_enabled" {
@@ -198,7 +198,7 @@ resource "aws_config_config_rule" "rds_cluster_iam_authentication_enabled" {
     source_identifier = var.source_identifier["rds_cluster_iam_authentication_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_instance_deletion_protection_enabled" {
@@ -209,7 +209,7 @@ resource "aws_config_config_rule" "rds_instance_deletion_protection_enabled" {
     source_identifier = var.source_identifier["rds_instance_deletion_protection_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_instance_iam_authentication_enabled" {
@@ -220,7 +220,7 @@ resource "aws_config_config_rule" "rds_instance_iam_authentication_enabled" {
     source_identifier = var.source_identifier["rds_instance_iam_authentication_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_logging_enabled" {
@@ -231,7 +231,7 @@ resource "aws_config_config_rule" "rds_logging_enabled" {
     source_identifier = var.source_identifier["rds_logging_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_in_backup_plan" {
@@ -242,7 +242,7 @@ resource "aws_config_config_rule" "rds_in_backup_plan" {
     source_identifier = var.source_identifier["rds_in_backup_plan_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_snapshot_encrypted" {
@@ -253,7 +253,7 @@ resource "aws_config_config_rule" "rds_snapshot_encrypted" {
     source_identifier = var.source_identifier["rds_snapshot_encrypted_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_instance_public_access_check" {
@@ -264,7 +264,7 @@ resource "aws_config_config_rule" "rds_instance_public_access_check" {
     source_identifier = var.source_identifier["rds_instance_public_access_check_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_multi_az_support" {
@@ -275,7 +275,7 @@ resource "aws_config_config_rule" "rds_multi_az_support" {
     source_identifier = var.source_identifier["rds_multi_az_support_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_snapshots_public_prohibited" {
@@ -286,7 +286,7 @@ resource "aws_config_config_rule" "rds_snapshots_public_prohibited" {
     source_identifier = var.source_identifier["rds_snapshots_public_prohibited_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "rds_storage_encrypted" {
@@ -297,7 +297,7 @@ resource "aws_config_config_rule" "rds_storage_encrypted" {
     source_identifier = var.source_identifier["rds_storage_encrypted_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 #IAM Configuration Rules--------------------------------------------------------
@@ -310,7 +310,7 @@ resource "aws_config_config_rule" "iam_no_inline_policy_check" {
     source_identifier = var.source_identifier["iam_no_inline_policy_check_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "iam_group_has_users_check" {
@@ -321,7 +321,7 @@ resource "aws_config_config_rule" "iam_group_has_users_check" {
     source_identifier = var.source_identifier["iam_group_has_users_check_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "iam_policy_no_statements_with_admin_access" {
@@ -332,7 +332,7 @@ resource "aws_config_config_rule" "iam_policy_no_statements_with_admin_access" {
     source_identifier = var.source_identifier["iam_policy_no_statements_with_admin_access_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "iiam_user_mfa_enabled" {
@@ -343,7 +343,7 @@ resource "aws_config_config_rule" "iiam_user_mfa_enabled" {
     source_identifier = var.source_identifier["iam_user_mfa_enabled_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "iam_user_no_policies_check" {
@@ -354,7 +354,7 @@ resource "aws_config_config_rule" "iam_user_no_policies_check" {
     source_identifier = var.source_identifier["iam_user_no_policies_check_id"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 resource "aws_config_config_rule" "iam_user_unused_credentials_check" {
@@ -371,7 +371,7 @@ resource "aws_config_config_rule" "iam_user_unused_credentials_check" {
 }
 EOF
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  depends_on = aws_config_configuration_recorder.dq_aws_config_recorder
 }
 
 #
