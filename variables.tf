@@ -37,8 +37,31 @@ variable "config_rule" {
     s3_bucket_public_write_prohibited        = "DQ_s3_bucket_public_write_prohibited"
     s3_bucket_server_side_encryption_enabled = "DQ_s3_bucket_server_side_encryption_enabled"
     s3_bucket_ssl_requests_only              = "DQ_s3_bucket_ssl_requests_only"
+    rds_cluster_deletion_protection_enabled  = "DQ_rds_cluster_deletion_protection_enabled"
+    rds_cluster_iam_authentication_enabled   = "DQ_rds_cluster_iam_authentication_enabled"
+    rds_instance_deletion_protection_enabled = "DQ_rds_instance_deletion_protection_enabled"
+    rds_instance_iam_authentication_enabled  = "DQ_rds_instance_iam_authentication_enabled"
+    rds_logging_enabled                      = "DQ_rds_logging_enabled"
+    rds_in_backup_plan                       = "DQ_rds_in_backup_plan"
+    rds_snapshot_encrypted                   = "DQ_rds_snapshot_encrypted"
+    rds_instance_public_access_check         = "DQ_rds_instance_public_access_check"
+    rds_multi_az_support                     = "DQ_rds_multi_az_support"
+    rds_snapshots_public_prohibited          = "DQ_rds_snapshots_public_prohibited"
+    rds_storage_encrypted                    = "DQ_rds_storage_encrypted"
   }
 }
+
+rds-cluster-deletion-protection-enabled
+rds-cluster-iam-authentication-enabled
+rds-instance-deletion-protection-enabled
+rds-instance-iam-authentication-enabled
+rds-logging-enabled
+rds-in-backup-plan
+rds-snapshot-encrypted
+rds-instance-public-access-check
+rds-multi-az-support
+rds-snapshots-public-prohibited
+rds-storage-encrypted
 
 variable "source_identifier" {
   type = map(string)
@@ -51,5 +74,16 @@ variable "source_identifier" {
     s3_bucket_public_write_prohibited_id        = "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
     s3_bucket_server_side_encryption_enabled_id = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
     s3_bucket_ssl_requests_only_id              = "S3_BUCKET_SSL_REQUESTS_ONLY"
+    rds_cluster_deletion_protection_enabled     = "RDS_CLUSTER_DELETION_PROTECTION_ENABLED"
+    rds_cluster_iam_authentication_enabled      = "RDS_CLUSTER_IAM_AUTHENTICATION_ENABLED"
+    rds_instance_deletion_protection_enabled    = "RDS_INSTANCE_DELETION_PROTECTION_ENABLED"
+    rds_instance_iam_authentication_enabled     = "RDS_INSTANCE_IAM_AUTHENTICATION_ENABLED"
+    rds_logging_enabled                         = "RDS_LOGGING_ENABLED"
+    rds_in_backup_plan                          = "RDS_IN_BACKUP_PLAN"
+    rds_snapshot_encrypted                      = "RDS_SNAPSHOT_ENCRYPTED"
+    rds_instance_public_access_check            = "RDS_INSTANCE_PUBLIC_ACCESS_CHECK"
+    rds_multi_az_support                        = "RDS_MULTI_AZ_SUPPORT"
+    rds_snapshots_public_prohibited             = "RDS_SNAPSHOTS_PUBLIC_PROHIBITED"
+    rds_storage_encrypted                       = "RDS_STORAGE_ENCRYPTED"
   }
 }

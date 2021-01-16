@@ -80,6 +80,8 @@ resource "aws_config_delivery_channel" "dq_aws_config_delivery_channel" {
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
 
+#S3 Configuration Rules--------------------------------------------------------
+
 resource "aws_config_configuration_recorder_status" "dq_aws_config_config_status" {
   name       = aws_config_configuration_recorder.dq_aws_config_recorder.name
   is_enabled = true
@@ -170,6 +172,129 @@ resource "aws_config_config_rule" "s3_bucket_ssl_requests_only" {
   source {
     owner             = "AWS"
     source_identifier = var.source_identifier["s3_bucket_ssl_requests_only_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+#RDS Configuration Rules--------------------------------------------------------
+
+resource "aws_config_config_rule" "rds_cluster_deletion_protection_enabled" {
+  name = var.config_rule["rds_cluster_deletion_protection_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_cluster_deletion_protection_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_cluster_iam_authentication_enabled" {
+  name = var.config_rule["rds_cluster_iam_authentication_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_cluster_iam_authentication_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_instance_deletion_protection_enabled" {
+  name = var.config_rule["rds_instance_deletion_protection_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_instance_deletion_protection_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_instance_iam_authentication_enabled" {
+  name = var.config_rule["rds_instance_iam_authentication_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_instance_iam_authentication_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_logging_enabled" {
+  name = var.config_rule["rds_logging_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_logging_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_in_backup_plan" {
+  name = var.config_rule["rds_in_backup_plan"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_in_backup_plan_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_snapshot_encrypted" {
+  name = var.config_rule["rds_snapshot_encrypted"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_snapshot_encrypted_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_instance_public_access_check" {
+  name = var.config_rule["rds_instance_public_access_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_instance_public_access_check_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_multi_az_support" {
+  name = var.config_rule["rds_multi_az_support"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_multi_az_support_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_snapshots_public_prohibited" {
+  name = var.config_rule["rds_snapshots_public_prohibited"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_snapshots_public_prohibited_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "rds_storage_encrypted" {
+  name = var.config_rule["rds_storage_encrypted"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["rds_storage_encrypted_id"]
   }
 
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
