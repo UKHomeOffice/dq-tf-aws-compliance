@@ -51,18 +51,6 @@ variable "config_rule" {
   }
 }
 
-rds-cluster-deletion-protection-enabled
-rds-cluster-iam-authentication-enabled
-rds-instance-deletion-protection-enabled
-rds-instance-iam-authentication-enabled
-rds-logging-enabled
-rds-in-backup-plan
-rds-snapshot-encrypted
-rds-instance-public-access-check
-rds-multi-az-support
-rds-snapshots-public-prohibited
-rds-storage-encrypted
-
 variable "source_identifier" {
   type = map(string)
   default = {
