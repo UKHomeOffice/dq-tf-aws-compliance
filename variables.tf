@@ -74,26 +74,6 @@ variable "config_rule" {
   }
 }
 
-access-keys-rotated
-cloudtrail-enabled
-cloud-trail-encryption-enabled
-cmk-backing-key-rotation-enabled
-dynamodb-table-encrypted-kms
-dynamodb-table-encryption-enabled
-ec2-ebs-encryption-by-default
-ebs-snapshot-public-restorable-check
-efs-encrypted-check
-encrypted-volumes
-guardduty-enabled-centralized
-
-kms-cmk-not-scheduled-for-deletion
-lambda-function-public-access-prohibited
-mfa-enabled-for-iam-console-access
-
-sns-encrypted-kms
-vpc-network-acl-unused-check
-vpc-sg-open-only-to-authorized-ports
-
 variable "source_identifier" {
   type = map(string)
   default = {
