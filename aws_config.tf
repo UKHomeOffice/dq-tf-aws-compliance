@@ -478,9 +478,6 @@ resource "aws_config_config_rule" "ebs_snapshot_public_restorable_check" {
     depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
   }
 
-  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
-}
-
 resource "aws_config_config_rule" "encrypted_volumes" {
   name = var.config_rule["encrypted_volumes"]
 
