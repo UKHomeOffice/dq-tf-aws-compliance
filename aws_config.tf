@@ -467,16 +467,19 @@ resource "aws_config_config_rule" "ebs_snapshot_public_restorable_check" {
     source_identifier = var.source_identifier["ebs_snapshot_public_restorable_check_id"]
   }
 
-  resource "aws_config_config_rule" "efs_encrypted_check" {
-    name = var.config_rule["efs_encrypted_check"]
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
 
-    source {
-      owner             = "AWS"
-      source_identifier = var.source_identifier["efs_encrypted_check_id"]
-    }
+resource "aws_config_config_rule" "efs_encrypted_check" {
+  name = var.config_rule["efs_encrypted_check"]
 
-    depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["efs_encrypted_check_id"]
   }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
 
 resource "aws_config_config_rule" "encrypted_volumes" {
   name = var.config_rule["encrypted_volumes"]
