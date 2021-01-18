@@ -374,6 +374,204 @@ EOF
   depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
 }
 
+#Other Configuration Rules--------------------------------------------------------
+
+resource "aws_config_config_rule" "access_keys_rotated" {
+  name = var.config_rule["access_keys_rotated"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["access_keys_rotated_id"]
+  }
+
+  input_parameters = <<EOF
+{
+  "maxAccessKeyAge" : "90"
+}
+EOF
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "cloudtrail_enabled" {
+  name = var.config_rule["cloudtrail_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["cloudtrail_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "cloud_trail_encryption_enabled" {
+  name = var.config_rule["cloud_trail_encryption_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["cloud_trail_encryption_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "cmk_backing_key_rotation_enabled" {
+  name = var.config_rule["cmk_backing_key_rotation_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["cmk_backing_key_rotation_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "dynamodb_table_encrypted_kms" {
+  name = var.config_rule["dynamodb_table_encrypted_kms"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["dynamodb_table_encrypted_kms_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "dynamodb_table_encryption_enabled" {
+  name = var.config_rule["dynamodb_table_encryption_enabled"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["dynamodb_table_encryption_enabled_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "ec2_ebs_encryption_by_default" {
+  name = var.config_rule["ec2_ebs_encryption_by_default"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["ec2_ebs_encryption_by_default_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "ebs_snapshot_public_restorable_check" {
+  name = var.config_rule["ebs_snapshot_public_restorable_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["ebs_snapshot_public_restorable_check_id"]
+  }
+
+  resource "aws_config_config_rule" "efs_encrypted_check" {
+    name = var.config_rule["efs_encrypted_check"]
+
+    source {
+      owner             = "AWS"
+      source_identifier = var.source_identifier["efs_encrypted_check_id"]
+    }
+
+    depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "encrypted_volumes" {
+  name = var.config_rule["encrypted_volumes"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["encrypted_volumes_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "guardduty_enabled_centralized" {
+  name = var.config_rule["guardduty_enabled_centralized"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["guardduty_enabled_centralized_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "kms_cmk_not_scheduled_for_deletion" {
+  name = var.config_rule["kms_cmk_not_scheduled_for_deletion"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["kms_cmk_not_scheduled_for_deletion_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "lambda_function_public_access_prohibited" {
+  name = var.config_rule["lambda_function_public_access_prohibited"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["lambda_function_public_access_prohibited_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "mfa_enabled_for_iam_console_access" {
+  name = var.config_rule["mfa_enabled_for_iam_console_access"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["mfa_enabled_for_iam_console_access_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "sns_encrypted_kms" {
+  name = var.config_rule["sns_encrypted_kms"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["sns_encrypted_kms_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "vpc_network_acl_unused_check" {
+  name = var.config_rule["vpc_network_acl_unused_check"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["vpc_network_acl_unused_check_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+resource "aws_config_config_rule" "vpc_sg_open_only_to_authorized_ports" {
+  name = var.config_rule["vpc_sg_open_only_to_authorized_ports"]
+
+  source {
+    owner             = "AWS"
+    source_identifier = var.source_identifier["vpc_sg_open_only_to_authorized_ports_id"]
+  }
+
+  depends_on = ["aws_config_configuration_recorder.dq_aws_config_recorder"]
+}
+
+
+
+
 #
 # resource "aws_config_config_rule" "instances_in_vpc" {
 #   name = "instances_in_vpc"

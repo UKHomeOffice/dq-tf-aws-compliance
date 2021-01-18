@@ -54,8 +54,45 @@ variable "config_rule" {
     iam_user_mfa_enabled                       = "DQ_iam_user_mfa_enabled"
     iam_user_no_policies_check                 = "DQ_iam_user_no_policies_check"
     iam_user_unused_credentials_check          = "DQ_iam_user_unused_credentials_check"
+    access_keys_rotated                        = "DQ_access_keys_rotated"
+    cloudtrail_enabled                         = "DQ_cloudtrail_enabled"
+    cloud_trail_encryption_enabled             = "DQ_cloud_trail_encryption_enabled"
+    cmk_backing_key_rotation_enabled           = "DQ_cmk_backing_key_rotation_enabled"
+    dynamodb_table_encrypted_kms               = "DQ_dynamodb_table_encrypted_kms"
+    dynamodb_table_encryption_enabled          = "DQ_dynamodb_table_encryption_enabled"
+    ec2_ebs_encryption_by_default              = "DQ_ec2_ebs_encryption_by_default"
+    ebs_snapshot_public_restorable_check       = "DQ_ebs_snapshot_public_restorable_check"
+    efs_encrypted_check                        = "DQ_efs_encrypted_check"
+    encrypted_volumes                          = "DQ_encrypted_volumes"
+    guardduty_enabled_centralized              = "DQ_guardduty_enabled_centralized"
+    kms_cmk_not_scheduled_for_deletion         = "DQ_kms_cmk_not_scheduled_for_deletion"
+    lambda_function_public_access_prohibited   = "DQ_kms_cmk_not_scheduled_for_deletion"
+    mfa_enabled_for_iam_console_access         = "DQ_mfa_enabled_for_iam_console_access"
+    sns_encrypted_kms                          = "DQ_sns_encrypted_kms"
+    vpc_network_acl_unused_check               = "DQ_vpc_network_acl_unused_check"
+    vpc_sg_open_only_to_authorized_ports       = "DQ_vpc_sg_open_only_to_authorized_ports"
   }
 }
+
+access-keys-rotated
+cloudtrail-enabled
+cloud-trail-encryption-enabled
+cmk-backing-key-rotation-enabled
+dynamodb-table-encrypted-kms
+dynamodb-table-encryption-enabled
+ec2-ebs-encryption-by-default
+ebs-snapshot-public-restorable-check
+efs-encrypted-check
+encrypted-volumes
+guardduty-enabled-centralized
+
+kms-cmk-not-scheduled-for-deletion
+lambda-function-public-access-prohibited
+mfa-enabled-for-iam-console-access
+
+sns-encrypted-kms
+vpc-network-acl-unused-check
+vpc-sg-open-only-to-authorized-ports
 
 variable "source_identifier" {
   type = map(string)
@@ -85,5 +122,22 @@ variable "source_identifier" {
     iam_user_mfa_enabled_id                       = "IAM_USER_MFA_ENABLED"
     iam_user_no_policies_check_id                 = "IAM_USER_NO_POLICIES_CHECK"
     iam_user_unused_credentials_check_id          = "IAM_USER_UNUSED_CREDENTIALS_CHECK"
+    access_keys_rotated                           = "ACCESS_KEYS_ROTATED"
+    cloudtrail_enabled                            = "CLOUD_TRAIL_ENABLED"
+    cloud_trail_encryption_enabled                = "CLOUD_TRAIL_ENCRYPTION_ENABLED"
+    cmk_backing_key_rotation_enabled              = "CMK_BACKING_KEY_ROTATION_ENABLED"
+    dynamodb_table_encrypted_kms                  = "DYNAMODB_TABLE_ENCRYPTED_KMS"
+    dynamodb_table_encryption_enabled             = "DYNAMODB_TABLE_ENCRYPTION_ENABLED"
+    ec2_ebs_encryption_by_default                 = "EC2_EBS_ENCRYPTION_BY_DEFAULT"
+    ebs_snapshot_public_restorable_check          = "EBS_SNAPSHOT_PUBLIC_RESTORABLE_CHECK"
+    efs_encrypted_check                           = "EFS_ENCRYPTED_CHECK"
+    encrypted_volumes                             = "ENCRYPTED_VOLUMES"
+    guardduty_enabled_centralized                 = "GUARDDUTY_ENABLED_CENTRALIZED"
+    kms_cmk_not_scheduled_for_deletion            = "KMS_CMK_NOT_SCHEDULED_FOR_DELETION"
+    lambda_function_public_access_prohibited      = "LAMBDA_FUNCTION_PUBLIC_ACCESS_PROHIBITED"
+    mfa_enabled_for_iam_console_access            = "MFA_ENABLED_FOR_IAM_CONSOLE_ACCESS"
+    sns_encrypted_kms                             = "SNS_ENCRYPTED_KMS"
+    vpc_network_acl_unused_check                  = "VPC_NETWORK_ACL_UNUSED_CHECK"
+    vpc_sg_open_only_to_authorized_ports          = "VPC_SG_OPEN_ONLY_TO_AUTHORIZED_PORTS"
   }
 }
