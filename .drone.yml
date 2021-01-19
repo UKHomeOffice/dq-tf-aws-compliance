@@ -1,100 +1,100 @@
 pipeline:
 
-  # run-testrunner-tests:
-  #   image: quay.io/ukhomeofficedigital/tf-testrunner:32
+  run-testrunner-tests:
+    image: quay.io/ukhomeofficedigital/tf-testrunner:32
+    commands:
+      - python -m unittest tests/e2e.py
+    secrets:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+    when:
+      event: push
+
+  # init-test:
+  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  #   pull: true
   #   commands:
-  #     - python -m unittest tests/e2e.py
+  #     - export MOCK_ID=$${AWS_ACCESS_KEY_ID}
+  #     - export MOCK_KEY=$${AWS_SECRET_ACCESS_KEY}
+  #     - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
+  #     - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
+  #     - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
+  #     - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
+  #     - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"test/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
+  #     - terragrunt init
+  #   when:
+  #     event: push
+  #     branch:
+  #       exclude: [ master ]
   #   secrets:
   #     - AWS_ACCESS_KEY_ID
   #     - AWS_SECRET_ACCESS_KEY
+  #
+  # testsuite:
+  #   image: docker:18.05
+  #   environment:
+  #     - DOCKER_HOST=tcp://172.17.0.1:2375
+  #   commands:
+  #     - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
   #   when:
   #     event: push
-
-  init-test:
-    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-    pull: true
-    commands:
-      - export MOCK_ID=$${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=$${AWS_SECRET_ACCESS_KEY}
-      - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
-      - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
-      - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
-      - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-      - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"test/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
-      - terragrunt init
-    when:
-      event: push
-      branch:
-        exclude: [ master ]
-    secrets:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-
-  testsuite:
-    image: docker:18.05
-    environment:
-      - DOCKER_HOST=tcp://172.17.0.1:2375
-    commands:
-      - docker run --rm -v $(pwd):/data -w /data hashicorp/terraform fmt --diff --check
-    when:
-      event: push
-      branch:
-        exclude: [ master ]
-    secrets:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-
-  validate-test:
-    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-    commands:
-      - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
-      - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
-      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
-      - terragrunt validate
-    when:
-      event: push
-      branch:
-        exclude: [ master ]
-    secrets:
-      - TF_VAR_MOCK_ID
-      - TF_VAR_MOCK_KEY
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-
-  plan-test:
-    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-    commands:
-      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
-      - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
-      - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
-      - terragrunt plan -lock=false -out=plan
-    when:
-      event: push
-      branch:
-        exclude: [ master ]
-    secrets:
-      - TF_VAR_MOCK_ID
-      - TF_VAR_MOCK_KEY
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-
-  apply-test:
-    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-    commands:
-      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
-      - terragrunt apply -auto-approve -parallelism=50 plan
-    when:
-      event: push
-      branch:
-        exclude: [ master , plan/* ]
-    secrets:
-      - TF_VAR_MOCK_ID
-      - TF_VAR_MOCK_KEY
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
+  #     branch:
+  #       exclude: [ master ]
+  #   secrets:
+  #     - AWS_ACCESS_KEY_ID
+  #     - AWS_SECRET_ACCESS_KEY
+  #
+  # validate-test:
+  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  #   commands:
+  #     - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
+  #     - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
+  #     - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+  #     - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+  #     - terragrunt validate
+  #   when:
+  #     event: push
+  #     branch:
+  #       exclude: [ master ]
+  #   secrets:
+  #     - TF_VAR_MOCK_ID
+  #     - TF_VAR_MOCK_KEY
+  #     - AWS_ACCESS_KEY_ID
+  #     - AWS_SECRET_ACCESS_KEY
+  #
+  # plan-test:
+  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  #   commands:
+  #     - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+  #     - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+  #     - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
+  #     - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
+  #     - terragrunt plan -lock=false -out=plan
+  #   when:
+  #     event: push
+  #     branch:
+  #       exclude: [ master ]
+  #   secrets:
+  #     - TF_VAR_MOCK_ID
+  #     - TF_VAR_MOCK_KEY
+  #     - AWS_ACCESS_KEY_ID
+  #     - AWS_SECRET_ACCESS_KEY
+  #
+  # apply-test:
+  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  #   commands:
+  #     - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+  #     - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+  #     - terragrunt apply -auto-approve -parallelism=50 plan
+  #   when:
+  #     event: push
+  #     branch:
+  #       exclude: [ master , plan/* ]
+  #   secrets:
+  #     - TF_VAR_MOCK_ID
+  #     - TF_VAR_MOCK_KEY
+  #     - AWS_ACCESS_KEY_ID
+  #     - AWS_SECRET_ACCESS_KEY
 
 # # Deploy to the CI Account
 #
