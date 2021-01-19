@@ -79,22 +79,22 @@ pipeline:
       - TF_VAR_MOCK_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-  #
-  # apply-test:
-  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-  #   commands:
-  #     - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-  #     - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
-  #     - terragrunt apply -auto-approve -parallelism=50 plan
-  #   when:
-  #     event: push
-  #     branch:
-  #       exclude: [ master , plan/* ]
-  #   secrets:
-  #     - TF_VAR_MOCK_ID
-  #     - TF_VAR_MOCK_KEY
-  #     - AWS_ACCESS_KEY_ID
-  #     - AWS_SECRET_ACCESS_KEY
+
+  apply-test:
+    image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+    commands:
+      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+      - terragrunt apply -auto-approve -parallelism=50 plan
+    when:
+      event: push
+      branch:
+        exclude: [ master , plan/* ]
+    secrets:
+      - TF_VAR_MOCK_ID
+      - TF_VAR_MOCK_KEY
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
 
 # # Deploy to the CI Account
 #
