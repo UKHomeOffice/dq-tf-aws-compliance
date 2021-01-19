@@ -160,11 +160,16 @@ pipeline:
       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
       - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"notprod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
       - terragrunt init
+    environment:
+      - TF_VAR_namespace=notprod
+      - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       event: push
       branch:
         exclude: [ master ]
     secrets:
+      - NOTPROD_ACC_ID
+      - NOTPROD_ACC_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 
@@ -174,13 +179,16 @@ pipeline:
       - export TF_VAR_ENV_ACCT_ID=$${NOTPROD_ACC_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${NOTPROD_ACC_KEY}
       - terragrunt plan -lock=false -out=plan
+    environment:
+      - TF_VAR_namespace=notprod
+      - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       event: push
       branch:
         exclude: [ master ]
     secrets:
-      - CI_ACC_ID
-      - CI_ACC_KEY
+      - NOTPROD_ACC_ID
+      - NOTPROD_ACC_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 
@@ -190,13 +198,16 @@ pipeline:
       - export MOCK_ID=${NOTPROD_ACC_ID}
       - export MOCK_KEY=${NOTPROD_ACC_KEY}
       - terragrunt apply -auto-approve -parallelism=50 plan
+    environment:
+      - TF_VAR_namespace=notprod
+      - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       event: push
       branch:
         exclude: [ master , plan/* ]
     secrets:
-      - CI_ACC_ID
-      - CI_ACC_KEY
+      - NOTPROD_ACC_ID
+      - NOTPROD_ACC_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 
