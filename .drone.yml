@@ -96,57 +96,7 @@ pipeline:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 
-# # Deploy to the CI Account
-#
-#   init-ci:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     pull: true
-#     commands:
-#       - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
-#       - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
-#       - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
-#       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-#       - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"ci/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
-#       - terragrunt init
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master ]
-#     secrets:
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
-#
-#   plan-ci:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     commands:
-#       - export TF_VAR_ENV_ACCT_ID=$${CI_ACC_ID}
-#       - export TF_VAR_ENV_ACCT_KEY=$${CI_ACC_KEY}
-#       - terragrunt plan -lock=false -out=plan
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master ]
-#     secrets:
-#       - CI_ACC_ID
-#       - CI_ACC_KEY
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
 
-  # apply-ci:
-  #   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-  #   commands:
-  #     - export MOCK_ID=${CI_ACC_ID}
-  #     - export MOCK_KEY=${CI_ACC_KEY}
-  #     - terragrunt apply -auto-approve -parallelism=50 plan
-  #   when:
-  #     event: push
-  #     branch:
-  #       exclude: [ master , plan/* ]
-  #   secrets:
-  #     - CI_ACC_ID
-  #     - CI_ACC_KEY
-  #     - AWS_ACCESS_KEY_ID
-  #     - AWS_SECRET_ACCESS_KEY
 
 #
 #   sonar-scanner:
