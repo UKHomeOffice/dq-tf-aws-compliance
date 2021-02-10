@@ -1,15 +1,5 @@
 pipeline:
 
-  run-testrunner-tests:
-    image: quay.io/ukhomeofficedigital/tf-testrunner:32
-    commands:
-      - python -m unittest tests/e2e.py
-    secrets:
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-    when:
-      event: push
-
   init-test:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     pull: true
@@ -25,7 +15,7 @@ pipeline:
     when:
       event: push
       branch:
-        exclude: [ master ]
+        exclude: [ main ]
     secrets:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
@@ -39,7 +29,7 @@ pipeline:
     when:
       event: push
       branch:
-        exclude: [ master ]
+        exclude: [ main ]
     secrets:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
@@ -55,7 +45,7 @@ pipeline:
     when:
       event: push
       branch:
-        exclude: [ master ]
+        exclude: [ main ]
     secrets:
       - TF_VAR_MOCK_ID
       - TF_VAR_MOCK_KEY
@@ -65,15 +55,15 @@ pipeline:
   plan-test:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     commands:
-      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+      - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
+      - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
       - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
       - terragrunt plan -lock=false -out=plan
     when:
       event: push
       branch:
-        exclude: [ master ]
+        exclude: [ main ]
     secrets:
       - TF_VAR_MOCK_ID
       - TF_VAR_MOCK_KEY
@@ -83,90 +73,34 @@ pipeline:
   apply-test:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     commands:
-      - export MOCK_ID=${AWS_ACCESS_KEY_ID}
-      - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
+      - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
+      - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
       - terragrunt apply -auto-approve -parallelism=50 plan
     when:
       event: push
       branch:
-        exclude: [ master , plan/* ]
+        exclude: [ main , plan/* ]
     secrets:
       - TF_VAR_MOCK_ID
       - TF_VAR_MOCK_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
 
-# # Deploy to the CI Account
-#
-#   init-ci:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     pull: true
-#     commands:
-#       - export TF_VAR_ENV_ACCT_ID=$${AWS_ACCESS_KEY_ID}
-#       - export TF_VAR_ENV_ACCT_KEY=$${AWS_SECRET_ACCESS_KEY}
-#       - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
-#       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-#       - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"ci/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
-#       - terragrunt init
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master ]
-#     secrets:
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
-#
-#   plan-ci:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     commands:
-#       - export TF_VAR_ENV_ACCT_ID=$${CI_ACC_ID}
-#       - export TF_VAR_ENV_ACCT_KEY=$${CI_ACC_KEY}
-#       - terragrunt plan -lock=false -out=plan
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master ]
-#     secrets:
-#       - CI_ACC_ID
-#       - CI_ACC_KEY
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
-#
-#   apply-ci:
-#     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-#     commands:
-#       - export MOCK_ID=${CI_ACC_ID}
-#       - export MOCK_KEY=${CI_ACC_KEY}
-#       - terragrunt apply -auto-approve -parallelism=50 plan
-#     when:
-#       event: push
-#       branch:
-#         exclude: [ master , plan/* ]
-#     secrets:
-#       - CI_ACC_ID
-#       - CI_ACC_KEY
-#       - AWS_ACCESS_KEY_ID
-#       - AWS_SECRET_ACCESS_KEY
-#
-  # Deploy to Notprod Account
-
+# Notprod deployment
   init-notprod:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     pull: true
     commands:
       - export TF_VAR_ENV_ACCT_ID=$${NOTPROD_ACC_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${NOTPROD_ACC_KEY}
-      - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-      - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"notprod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n  }\n}" > terragrunt.hcl
+      - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"notprod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
       - terragrunt init
     environment:
       - TF_VAR_namespace=notprod
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       event: push
-      branch:
-        exclude: [ master ]
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
@@ -175,6 +109,7 @@ pipeline:
 
   plan-notprod:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+    pull: true
     commands:
       - export TF_VAR_ENV_ACCT_ID=$${NOTPROD_ACC_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${NOTPROD_ACC_KEY}
@@ -183,42 +118,41 @@ pipeline:
       - TF_VAR_namespace=notprod
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
+      branch: [ main , plan/* ]
       event: push
-      branch:
-        exclude: [ master ]
     secrets:
-      - NOTPROD_ACC_ID
-      - NOTPROD_ACC_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
+      - NOTPROD_ACC_ID
+      - NOTPROD_ACC_KEY
 
   apply-notprod:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+    pull: true
     commands:
-      - export MOCK_ID=${NOTPROD_ACC_ID}
-      - export MOCK_KEY=${NOTPROD_ACC_KEY}
+      - export TF_VAR_ENV_ACCT_ID=$${NOTPROD_ACC_ID}
+      - export TF_VAR_ENV_ACCT_KEY=$${NOTPROD_ACC_KEY}
       - terragrunt apply -auto-approve -parallelism=50 plan
     environment:
       - TF_VAR_namespace=notprod
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       branch:
-        include: [ master ]
+        include: [ main ]
         exclude: [ plan/* ]
       event: push
     secrets:
-      - NOTPROD_ACC_ID
-      - NOTPROD_ACC_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
+      - NOTPROD_ACC_ID
+      - NOTPROD_ACC_KEY
 
-## Deploy to production
+## production
   init-prod:
     image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
     commands:
       - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
       - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
-      - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
       - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"prod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
       - terragrunt init -reconfigure
@@ -244,7 +178,7 @@ pipeline:
       - TF_VAR_namespace=prod
       - TF_VAR_naming_suffix=apps-prod-dq
     when:
-      branch: [ master , plan/* ]
+      branch: [ main , plan/* ]
       event: [deployment, push]
     secrets:
       - AWS_ACCESS_KEY_ID
@@ -263,7 +197,7 @@ pipeline:
       - TF_VAR_namespace=prod
       - TF_VAR_naming_suffix=apps-prod-dq
     when:
-      branch: master
+      branch: main
       environment: prod
       event: deployment
     secrets:
@@ -271,7 +205,6 @@ pipeline:
       - AWS_SECRET_ACCESS_KEY
       - PROD_ACC_ID
       - PROD_ACC_KEY
-
 
   sonar-scanner:
     image: quay.io/ukhomeofficedigital/sonar-scanner:v3.0.3
