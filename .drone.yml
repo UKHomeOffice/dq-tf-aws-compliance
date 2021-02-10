@@ -202,9 +202,10 @@ pipeline:
       - TF_VAR_namespace=notprod
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
-      event: push
       branch:
-        exclude: [ master , plan/* ]
+        include: [ master ]
+        exclude: [ plan/* ]
+      event: push
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
