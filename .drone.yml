@@ -165,8 +165,6 @@ pipeline:
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
       event: push
-      branch:
-        exclude: [ main ]
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
@@ -183,9 +181,8 @@ pipeline:
       - TF_VAR_namespace=notprod
       - TF_VAR_naming_suffix=apps-notprod-dq
     when:
+      branch: [ main , plan/* ]
       event: push
-      branch:
-        exclude: [ main ]
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
