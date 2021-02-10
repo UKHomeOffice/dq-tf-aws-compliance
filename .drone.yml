@@ -220,7 +220,7 @@ pipeline:
       - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
       - echo "provider \"aws\" { region = \"eu-west-2\" }" > provider.tf
       - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-      - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-coral-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"prod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
+      - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"prod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
       - terragrunt init -reconfigure
     environment:
       - TF_VAR_namespace=prod
