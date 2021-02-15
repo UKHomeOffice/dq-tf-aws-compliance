@@ -42,7 +42,6 @@ steps:
       from_secret: AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
       from_secret: AWS_SECRET_ACCESS_KEY
-    DOCKER_HOST: tcp://172.17.0.1:2375
   when:
     branch:
       exclude:
