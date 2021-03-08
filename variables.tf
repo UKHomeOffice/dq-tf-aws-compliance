@@ -17,6 +17,7 @@ variable "kms_key_s3" {
   description = "The ARN of the KMS key that is used to encrypt S3 buckets"
   default = {
     test    = "arn:aws:kms:eu-west-2:797728447925:key/ad7169c4-6d6a-4d21-84ee-a3b54f4bef87"
+    ci      = "arn:aws:kms:eu-west-2:093401982388:key/511f6905-9e68-49bd-91e5-d5832bfcb7fd"
     notprod = "arn:aws:kms:eu-west-2:483846886818:key/24b0cd4f-3117-4e9b-ada8-fa46e7fd6d70"
     prod    = "arn:aws:kms:eu-west-2:337779336338:key/ae75113d-f4f6-49c6-a15e-e8493fda0453"
   }
