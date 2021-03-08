@@ -123,7 +123,7 @@ steps:
     event:
     - push
 
-- name: init-test
+- name: init-ci
   pull: always
   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
   commands:
