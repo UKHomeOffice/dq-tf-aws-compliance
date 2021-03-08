@@ -103,8 +103,8 @@ steps:
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
   commands:
-  - export MOCK_ID=${TEST_AWS_ACCESS_KEY_ID}
-  - export MOCK_KEY=${TEST_AWS_SECRET_ACCESS_KEY}
+  - export MOCK_ID=${AWS_ACCESS_KEY_ID}
+  - export MOCK_KEY=${AWS_SECRET_ACCESS_KEY}
   - terragrunt apply -auto-approve -parallelism=50 plan
   environment:
     AWS_ACCESS_KEY_ID:
@@ -141,7 +141,7 @@ steps:
       from_secret: CI_ACC_ID
     CI_ACC_KEY:
       from_secret: CI_ACC_KEY
-    TF_VAR_namespace: notprod
+    TF_VAR_namespace: ci
     TF_VAR_naming_suffix: apps-ci-dq
   when:
     event:
@@ -163,7 +163,7 @@ steps:
       from_secret: CI_ACC_ID
     CI_ACC_KEY:
       from_secret: CI_ACC_KEY
-    TF_VAR_namespace: notprod
+    TF_VAR_namespace: ci
     TF_VAR_naming_suffix: apps-ci-dq
   when:
     branch:
@@ -188,7 +188,7 @@ steps:
       from_secret: CI_ACC_ID
     CI_ACC_KEY:
       from_secret: CI_ACC_KEY
-    TF_VAR_namespace: notprod
+    TF_VAR_namespace: ci
     TF_VAR_naming_suffix: apps-ci-dq
   when:
     branch:
