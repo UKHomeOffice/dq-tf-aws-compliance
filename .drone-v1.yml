@@ -118,7 +118,7 @@ steps:
   when:
     branch:
       exclude:
-      - main
+      - master
       - plan/*
     event:
     - push
@@ -196,96 +196,94 @@ steps:
       - main
       exclude:
       - plan/*
-    event:
-    - push
 
-- name: init-prod
-  pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-  commands:
-  - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
-  - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
-  - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
-  - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"prod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
-  - terragrunt init -reconfigure
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    PROD_ACC_ID:
-      from_secret: PROD_ACC_ID
-    PROD_ACC_KEY:
-      from_secret: PROD_ACC_KEY
-    TF_VAR_namespace: prod
-    TF_VAR_naming_suffix: apps-prod-dq
-  when:
-    event:
-    - promote
-    - push
-
-- name: plan-prod
-  pull: always
-  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-  commands:
-  - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
-  - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
-  - terragrunt plan -lock=false -out=prodplan
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    PROD_ACC_ID:
-      from_secret: PROD_ACC_ID
-    PROD_ACC_KEY:
-      from_secret: PROD_ACC_KEY
-    TF_VAR_namespace: prod
-    TF_VAR_naming_suffix: apps-prod-dq
-  when:
-    branch:
-    - main
-    - plan/*
-    event:
-    - promote
-    - push
-
-- name: apply-prod
-  pull: always
-  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
-  commands:
-  - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
-  - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
-  - terragrunt apply -auto-approve -parallelism=50 prodplan
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-    PROD_ACC_ID:
-      from_secret: PROD_ACC_ID
-    PROD_ACC_KEY:
-      from_secret: PROD_ACC_KEY
-    TF_VAR_namespace: prod
-    TF_VAR_naming_suffix: apps-prod-dq
-  when:
-    branch:
-    - main
-    event:
-    - promote
-    target:
-    - prod
-
-- name: sonar-scanner
-  pull: if-not-exists
-  image: quay.io/ukhomeofficedigital/sonar-scanner:v3.0.3
-  when:
-    event:
-    - push
-    - pull_request
-    target:
-      exclude:
-      - production
+# - name: init-prod
+#   pull: if-not-exists
+#   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+#   commands:
+#   - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
+#   - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
+#   - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
+#   - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dacc-dq-test-yellow-team\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"prod/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
+#   - terragrunt init -reconfigure
+#   environment:
+#     AWS_ACCESS_KEY_ID:
+#       from_secret: AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY:
+#       from_secret: AWS_SECRET_ACCESS_KEY
+#     PROD_ACC_ID:
+#       from_secret: PROD_ACC_ID
+#     PROD_ACC_KEY:
+#       from_secret: PROD_ACC_KEY
+#     TF_VAR_namespace: prod
+#     TF_VAR_naming_suffix: apps-prod-dq
+#   when:
+#     event:
+#     - promote
+#     - push
+#
+# - name: plan-prod
+#   pull: always
+#   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+#   commands:
+#   - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
+#   - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
+#   - terragrunt plan -lock=false -out=prodplan
+#   environment:
+#     AWS_ACCESS_KEY_ID:
+#       from_secret: AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY:
+#       from_secret: AWS_SECRET_ACCESS_KEY
+#     PROD_ACC_ID:
+#       from_secret: PROD_ACC_ID
+#     PROD_ACC_KEY:
+#       from_secret: PROD_ACC_KEY
+#     TF_VAR_namespace: prod
+#     TF_VAR_naming_suffix: apps-prod-dq
+#   when:
+#     branch:
+#     - main
+#     - plan/*
+#     event:
+#     - promote
+#     - push
+#
+# - name: apply-prod
+#   pull: always
+#   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+#   commands:
+#   - export TF_VAR_ENV_ACCT_ID=$${PROD_ACC_ID}
+#   - export TF_VAR_ENV_ACCT_KEY=$${PROD_ACC_KEY}
+#   - terragrunt apply -auto-approve -parallelism=50 prodplan
+#   environment:
+#     AWS_ACCESS_KEY_ID:
+#       from_secret: AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY:
+#       from_secret: AWS_SECRET_ACCESS_KEY
+#     PROD_ACC_ID:
+#       from_secret: PROD_ACC_ID
+#     PROD_ACC_KEY:
+#       from_secret: PROD_ACC_KEY
+#     TF_VAR_namespace: prod
+#     TF_VAR_naming_suffix: apps-prod-dq
+#   when:
+#     branch:
+#     - main
+#     event:
+#     - promote
+#     target:
+#     - prod
+#
+# - name: sonar-scanner
+#   pull: if-not-exists
+#   image: quay.io/ukhomeofficedigital/sonar-scanner:v3.0.3
+#   when:
+#     event:
+#     - push
+#     - pull_request
+#     target:
+#       exclude:
+#       - production
 
 services:
   - name: docker
