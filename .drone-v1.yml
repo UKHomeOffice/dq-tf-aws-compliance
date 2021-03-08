@@ -123,6 +123,82 @@ steps:
     event:
     - push
 
+- name: init-ci
+  pull: always
+  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  commands:
+  - export TF_VAR_ENV_ACCT_ID=$${CI_ACC_ID}
+  - export TF_VAR_ENV_ACCT_KEY=$${CI_ACC_KEY}
+  - echo -e "terraform {\n  backend \"s3\" {}\n}" > backend.tf
+  - echo -e "remote_state {\n  backend = \"s3\"\n  config = {\n  bucket = \"dq-tf-state\"\n  region = \"eu-west-2\"\n  dynamodb_table = \"terraform-state\"\n  key = \"ci/dq-tf-aws-compliance.tfstate\"\n  encrypt = true \n }\n}" > terragrunt.hcl
+  - terragrunt init
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    CI_ACC_ID:
+      from_secret: CI_ACC_ID
+    CI_ACC_KEY:
+      from_secret: CI_ACC_KEY
+    TF_VAR_namespace: notprod
+    TF_VAR_naming_suffix: apps-ci-dq
+  when:
+    event:
+    - push
+
+- name: plan-ci
+  pull: always
+  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  commands:
+  - export TF_VAR_ENV_ACCT_ID=$${CI_ACC_ID}
+  - export TF_VAR_ENV_ACCT_KEY=$${CI_ACC_KEY}
+  - terragrunt plan -lock=false -out=plan
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    CI_ACC_ID:
+      from_secret: CI_ACC_ID
+    CI_ACC_KEY:
+      from_secret: CI_ACC_KEY
+    TF_VAR_namespace: notprod
+    TF_VAR_naming_suffix: apps-ci-dq
+  when:
+    branch:
+    - main
+    - plan/*
+    event:
+    - push
+
+- name: apply-ci
+  pull: always
+  image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
+  commands:
+  - export TF_VAR_ENV_ACCT_ID=$${CI_ACC_ID}
+  - export TF_VAR_ENV_ACCT_KEY=$${CI_ACC_KEY}
+  - terragrunt apply -auto-approve -parallelism=50 plan
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+    CI_ACC_ID:
+      from_secret: CI_ACC_ID
+    CI_ACC_KEY:
+      from_secret: CI_ACC_KEY
+    TF_VAR_namespace: notprod
+    TF_VAR_naming_suffix: apps-ci-dq
+  when:
+    branch:
+      include:
+      - master
+      exclude:
+      - plan/*
+    event:
+    - push
+
 - name: init-notprod
   pull: always
   image: quay.io/ukhomeofficedigital/dq-docker-terragrunt:v0.23.18
