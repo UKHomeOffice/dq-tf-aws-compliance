@@ -12,6 +12,10 @@ variable "config_name" {
   default = "dq-aws-config"
 }
 
+variable "config_recorder_name" {
+  default = "dq-aws-config-recorder-monitor"
+}
+
 variable "kms_key_s3" {
   type        = map(string)
   description = "The ARN of the KMS key that is used to encrypt S3 buckets"
