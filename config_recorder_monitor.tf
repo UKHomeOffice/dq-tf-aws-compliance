@@ -1,5 +1,6 @@
 resource "aws_iam_role" "config_recorder_monitor_role" {
-  name = "config_recorder_monitor_role"
+  provider = aws.ENV_ACCT
+  name     = "config_recorder_monitor_role"
 
   assume_role_policy = <<EOF
 {
@@ -26,8 +27,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "config_recorder_monitor_role" {
-  name = "config_recorder_monitor_role"
-  role = aws_iam_role.config_recorder_monitor_role[0].id
+  provider = aws.ENV_ACCT
+  name     = "config_recorder_monitor_role"
+  role     = aws_iam_role.config_recorder_monitor_role[0].id
 
   policy = <<EOF
 {
@@ -64,18 +66,21 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "terraform_lambda_iam_policy_basic_execution" {
+  provider   = aws.ENV_ACCT
   role       = aws_iam_role.config_recorder_monitor_role[0].id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
 
 data "archive_file" "config_recorder_monitor_zip" {
+  provider    = aws.ENV_ACCT
   type        = "zip"
   source_dir  = "${local.path_module}/lambda/config_monitor/code"
   output_path = "${local.path_module}/lambda/config_monitor/package/lambda.zip"
 }
 
 resource "aws_lambda_function" "config_recorder_monitor" {
+  provider         = aws.ENV_ACCT
   filename         = "${path.module}/lambda/config_monitor/package/lambda.zip"
   function_name    = "${var.monitor_name}-${var.namespace}-lambda"
   role             = aws_iam_role.config_recorder_monitor_role[0].arn
@@ -108,6 +113,7 @@ resource "aws_lambda_function" "config_recorder_monitor" {
 }
 
 resource "aws_cloudwatch_log_group" "config_recorder_monitor" {
+  provider          = aws.ENV_ACCT
   name              = "/aws/lambda/${aws_lambda_function.config_recorder_monitor.function_name}"
   retention_in_days = 90
 
@@ -117,6 +123,7 @@ resource "aws_cloudwatch_log_group" "config_recorder_monitor" {
 }
 
 resource "aws_iam_policy" "config_recorder_monitor_logging" {
+  provider    = aws.ENV_ACCT
   name        = "${var.monitor_name}-${var.namespace}-lambda-logging"
   path        = "/"
   description = "IAM policy for monitor lambda"
@@ -148,6 +155,7 @@ EOF
 }
 
 resource "aws_cloudwatch_event_rule" "config_recorder_monitor" {
+  provider            = aws.ENV_ACCT
   name                = "${var.monitor_name}-${var.namespace}-cw-event-rule"
   description         = "Alerts every hour between 12pm and 5pm"
   schedule_expression = "cron(${var.monitor_lambda_run_schedule})"
@@ -155,11 +163,13 @@ resource "aws_cloudwatch_event_rule" "config_recorder_monitor" {
 }
 
 resource "aws_cloudwatch_event_target" "config_recorder_monitor" {
-  rule = aws_cloudwatch_event_rule.config_recorder_monitor.name
-  arn  = aws_lambda_function.config_recorder_monitor.arn
+  provider = aws.ENV_ACCT
+  rule     = aws_cloudwatch_event_rule.config_recorder_monitor.name
+  arn      = aws_lambda_function.config_recorder_monitor.arn
 }
 
 resource "aws_lambda_permission" "config_recorder_monitor_cw_permission" {
+  provider      = aws.ENV_ACCT
   statement_id  = "AllowExecutionFromCloudWatch"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.config_recorder_monitor.function_name
