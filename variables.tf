@@ -131,15 +131,10 @@ variable "source_identifier" {
     default = "AWSLogs/797728447925/Config/eu-west-2/2021/3/15/ConfigHistory/797728447925_Config_eu-west-2_ConfigHistory_AWS::Config::ResourceCompliance_20210315T163334Z_20210315T163337Z_1.json.gz"
   }
 
+  locals {
+    path_module   = var.path_module != "unset" ? var.path_module : path.module
+  }
+
   variable "path_module" {
     default = "unset"
-  }
-
-  variable "naming_suffix" {
-    default = "apps-test-dq"
-  }
-
-  locals {
-    naming_suffix = "${var.config_name}-${var.naming_suffix}"
-    path_module   = var.path_module != "unset" ? var.path_module : path.module
   }

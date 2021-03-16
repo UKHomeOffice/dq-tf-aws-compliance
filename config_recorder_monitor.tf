@@ -20,7 +20,7 @@ EOF
 
 
   tags = {
-    Name = "AWS-Config-${local.naming_suffix}"
+    Name = "AWS-Config-${var.config_name}-${var.namespace}"
   }
 
   count = var.pipeline_count
@@ -99,7 +99,7 @@ resource "aws_lambda_function" "config_recorder_monitor" {
   }
 
   tags = {
-    Name = "lambda-${var.monitor_name}-${local.naming_suffix}"
+    Name = "lambda-${var.config_name}-${var.namespace}"
   }
 
   # lifecycle {
@@ -118,7 +118,7 @@ resource "aws_cloudwatch_log_group" "config_recorder_monitor" {
   retention_in_days = 90
 
   tags = {
-    Name = "log-lambda-${local.naming_suffix}"
+    Name = "log-lambda-${var.config_name}-${var.namespace}}"
   }
 }
 
