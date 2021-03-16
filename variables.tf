@@ -121,4 +121,25 @@ variable "source_identifier" {
     vpc_network_acl_unused_check_id               = "VPC_NETWORK_ACL_UNUSED_CHECK"
     vpc_sg_open_only_to_authorized_ports_id       = "VPC_SG_OPEN_ONLY_TO_AUTHORIZED_PORTS"
   }
-}
+
+
+  variable "config_bucket" {
+    default = "s3-dq-aws-config"
+  }
+
+  variable "config_recorder_file" {
+    default = "AWSLogs/797728447925/Config/eu-west-2/2021/3/15/ConfigHistory/797728447925_Config_eu-west-2_ConfigHistory_AWS::Config::ResourceCompliance_20210315T163334Z_20210315T163337Z_1.json.gz"
+  }
+
+  variable "path_module" {
+    default = "unset"
+  }
+
+  variable "naming_suffix" {
+    default = "apps-test-dq"
+  }
+
+  locals {
+    naming_suffix = "${var.config_name}-${var.naming_suffix}"
+    path_module   = var.path_module != "unset" ? var.path_module : path.module
+  }
