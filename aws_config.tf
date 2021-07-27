@@ -612,7 +612,7 @@ resource "aws_config_config_rule" "vpc_sg_open_only_to_authorized_ports" {
     source_identifier = var.source_identifier["vpc_sg_open_only_to_authorized_ports_id"]
   }
 
-  input_parameters = "22,3389,1024-65535"
+  input_parameters = "{}"
 
   depends_on = [aws_config_configuration_recorder.dq_aws_config_recorder]
 }
