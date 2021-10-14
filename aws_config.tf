@@ -26,10 +26,9 @@ resource "aws_iam_role" "dq_aws_config_role" {
 POLICY
 }
 
-resource "aws_iam_role_policy" "dq_aws_config_policy" {
+resource "aws_iam_policy" "dq_aws_config_policy" {
   provider = aws.ENV_ACCT
   name     = "${var.config_name}-${var.namespace}-policy"
-  role     = aws_iam_role.dq_aws_config_role.id
 
   policy = <<EOF
 {
@@ -56,6 +55,11 @@ resource "aws_iam_role_policy" "dq_aws_config_policy" {
 }
 EOF
 
+}
+
+resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
+  role       = aws_iam_role.dq_aws_config_role.id
+  policy_arn = aws_iam_policy.dq_aws_config_policy.arn
 }
 
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
