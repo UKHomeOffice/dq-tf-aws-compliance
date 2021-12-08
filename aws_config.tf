@@ -57,10 +57,10 @@ EOF
 
 }
 
-resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
-  role       = aws_iam_role.dq_aws_config_role.id
-  policy_arn = aws_iam_policy.dq_aws_config_policy.arn
-}
+# resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
+#   role       = aws_iam_role.dq_aws_config_role.id
+#   policy_arn = aws_iam_policy.dq_aws_config_policy.arn
+# }
 
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
   provider   = aws.ENV_ACCT
