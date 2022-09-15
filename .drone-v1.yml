@@ -38,7 +38,7 @@ x-anchors:
     - echo "export AWS_DEFAULT_REGION=eu-west-2" >> state_secret.sh
     - sleep 15
 
-tf-init: &tf-init
+  tf-init: &tf-init
     - source state_secret.sh
     - source set_aws_secrets.sh
     # - export MOCK_ID=$${AWS_ACCESS_KEY_ID}
