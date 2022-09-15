@@ -103,7 +103,7 @@ steps:
 
 - name: retrieve_aws_state_keys
   pull: if-not-exists
-  image: *aws-cli
+  image: *vault-image
   commands:
     *retrieve-state-aws-key
   environment:
