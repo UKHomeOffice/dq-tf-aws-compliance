@@ -30,7 +30,7 @@ resource "aws_iam_policy" "dq_aws_config_policy" {
   provider = aws.ENV_ACCT
   name     = "${var.config_name}-${var.namespace}-policy"
 
-  policy = <<EOF
+  policy     = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -49,12 +49,12 @@ resource "aws_iam_policy" "dq_aws_config_policy" {
         "kms:DescribeKey"
       ],
       "Effect": "Allow",
-      "Resource": "${var.kms_key_s3[var.namespace]}"
+      "Resource": ["${aws_kms_key.comp_bucket_key.arn}"]
     }
   ]
 }
 EOF
-
+  depends_on = [aws_kms_key.comp_bucket_key]
 }
 
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
@@ -65,7 +65,7 @@ resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
   provider   = aws.ENV_ACCT
   role       = aws_iam_role.dq_aws_config_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWS_ConfigRole"
 }
 
 resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
