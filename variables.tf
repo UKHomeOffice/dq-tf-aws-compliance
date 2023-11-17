@@ -16,6 +16,7 @@ variable "config_bucket" {
   default = "s3-dq-aws-config"
 }
 
+
 variable "config_rule" {
   type = map(string)
   default = {
