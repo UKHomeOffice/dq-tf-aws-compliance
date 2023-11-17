@@ -49,12 +49,12 @@ resource "aws_iam_policy" "dq_aws_config_policy" {
         "kms:DescribeKey"
       ],
       "Effect": "Allow",
-      "Resource": "${var.kms_key_s3[var.namespace]}"
+      "Resource": ["${aws_kms_key.comp_bucket_key.arn}"]
     }
   ]
 }
 EOF
-
+ depends_on = [aws_kms_key.comp_bucket_key]
 }
 
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
