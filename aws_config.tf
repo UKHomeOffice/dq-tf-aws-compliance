@@ -65,7 +65,7 @@ resource "aws_iam_role_policy_attachment" "dq_aws_config_policy" {
 resource "aws_iam_role_policy_attachment" "dq_aws_config_policy_attachement" {
   provider   = aws.ENV_ACCT
   role       = aws_iam_role.dq_aws_config_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWS_ConfigRole"
 }
 
 resource "aws_config_configuration_recorder" "dq_aws_config_recorder" {
